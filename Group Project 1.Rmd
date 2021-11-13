@@ -1,0 +1,144 @@
+---
+title: "Group Prject 1"
+output: github_document
+---
+## Loading packages/read data
+```{r message = FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
+
+arthritis <- read_csv(here::here("data", "arthritis_clean.csv"))
+```
+
+## Summarize flexion before
+```{r flexion_before, message=FALSE}
+arthritis %>% 
+  group_by(leg, Group) %>%
+  summarise(min = min(Flexion_Before), Q1 = quantile(Flexion_Before, .25),
+            median = median(Flexion_Before), Q3 = quantile(Flexion_Before, .75),
+            max = max(Flexion_Before)) %>% 
+  knitr::kable()
+
+arthritis %>% 
+  ggplot(aes(x = Flexion_Before, color = leg))+
+  geom_boxplot()+
+  facet_grid(cols = vars(Group))+
+  labs(title = "Flexion Before",
+       x = "Degrees",
+       y = NULL)+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+It looks like participants in the treatment group had greater mobility already than those in the control group. Worth testing to see if it's significant.
+
+## Summarize Flexion After
+```{r flexion_after, message=FALSE}
+arthritis %>% 
+  group_by(leg, Group) %>%
+  summarise(min = min(Flexion_After), Q1 = quantile(Flexion_After, .25),
+            median = median(Flexion_After), Q3 = quantile(Flexion_After, .75),
+            max = max(Flexion_Before)) %>% 
+  knitr::kable()
+
+arthritis %>% 
+  ggplot(aes(x = Flexion_After, color = leg))+
+  geom_boxplot()+
+  facet_grid(cols = vars(Group))+
+  labs(title = "Flexion After",
+       x = "Degrees",
+       y = NULL)+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+
+## summarize diff_flexion
+```{r diff_flexion, message=FALSE}
+arthritis %>% 
+  group_by(leg, Group) %>% 
+  summarise(min = min(diff_Flexion), Q1 = quantile(diff_Flexion, .25),
+            median = median(diff_Flexion), Q3 = quantile(diff_Flexion, .75),
+            max = max(diff_Flexion)) %>% 
+  knitr::kable()
+
+arthritis %>% 
+  ggplot(aes(x = diff_Flexion, color = leg))+
+  geom_boxplot()+
+  facet_grid(cols = vars(Group))+
+  labs(title = "Difference in Flexion",
+       x = "Degrees",
+       y = NULL)+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+The treatment appears to have increase flexion mobility by 4 degrees in the left leg and 2.5 degrees in the right leg.
+
+
+## Summarize Rotation Before
+```{r rotation_before, message=FALSE}
+arthritis %>% 
+  group_by(leg, Group) %>% 
+  summarise(min = min(Rotation_Before), Q1 = quantile(Rotation_Before, .25),
+            median = median(Rotation_Before), Q3 = quantile(Rotation_Before, .75),
+            max = max(Rotation_Before)) %>% 
+  knitr::kable()
+
+arthritis %>% 
+  ggplot(aes(x = Rotation_Before, color = leg))+
+  geom_boxplot()+
+  facet_grid(cols = vars(Group))+
+  labs(title = "Rotation Before",
+       x = "Degrees",
+       y = NULL)+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+The median rotation for both hips and for treatment groups is similar.
+
+## Summarize Rotation After
+```{r rotation_after, message=FALSE}
+arthritis %>% 
+  group_by(leg, Group) %>% 
+  summarise(min = min(Rotation_After), Q1 = quantile(Rotation_After, .25),
+            median = median(Rotation_After), Q3 = quantile(Rotation_After, .75),
+            max = max(Rotation_After)) %>% 
+  knitr::kable()
+
+arthritis %>% 
+  ggplot(aes(x = Rotation_After, color = leg))+
+  geom_boxplot()+
+  facet_grid(cols = vars(Group))+
+  labs(title = "Rotation After",
+       x = "Degrees",
+       y = NULL)+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+The treatment group appears to have increase roation in both hips compared to the control group.
+
+## Summarize diff_rotation
+```{r diff_rotation, message=FALSE}
+arthritis %>% 
+  group_by(leg, Group) %>% 
+  summarise(min = min(diff_Rotation), Q1 = quantile(diff_Rotation, .25),
+            median = median(diff_Rotation), Q3 = quantile(diff_Rotation, .75),
+            max = max(diff_Rotation)) %>% 
+  knitr::kable()
+
+arthritis %>% 
+  ggplot(aes(x = diff_Rotation, color = leg))+
+  geom_boxplot()+
+  facet_grid(cols = vars(Group))+
+  labs(title = "Difference in Rotation",
+       x = "Degrees",
+       y = NULL)+
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+treatment appears to have improved rotation in both legs more than in the control group. The difference in the right leg is quite a bit larger.
+
+
+
+## Things to test
+* Is there a significant difference between the treatment and control group's inital flexion/rotation
+* Is there a significant difference in difference after intervention between the treatment groups in flexion/rotation
+* Does leg matter?
