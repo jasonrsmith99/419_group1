@@ -16,7 +16,7 @@ arthritis %>%
   group_by(leg, Group) %>%
   summarise(min = min(Flexion_Before), Q1 = quantile(Flexion_Before, .25),
             median = median(Flexion_Before), Q3 = quantile(Flexion_Before, .75),
-            max = max(Flexion_Before)) %>% 
+            max = max(Flexion_Before), std = sd(Rotation_Before)) %>% 
   knitr::kable()
 
 arthritis %>% 
@@ -37,7 +37,7 @@ arthritis %>%
   group_by(leg, Group) %>%
   summarise(min = min(Flexion_After), Q1 = quantile(Flexion_After, .25),
             median = median(Flexion_After), Q3 = quantile(Flexion_After, .75),
-            max = max(Flexion_Before)) %>% 
+            max = max(Flexion_After), std = sd(Flexion_After)) %>% 
   knitr::kable()
 
 arthritis %>% 
@@ -57,7 +57,7 @@ arthritis %>%
   group_by(leg, Group) %>% 
   summarise(min = min(diff_Flexion), Q1 = quantile(diff_Flexion, .25),
             median = median(diff_Flexion), Q3 = quantile(diff_Flexion, .75),
-            max = max(diff_Flexion)) %>% 
+            max = max(diff_Flexion), std = sd(diff_Flexion)) %>% 
   knitr::kable()
 
 arthritis %>% 
@@ -79,7 +79,7 @@ arthritis %>%
   group_by(leg, Group) %>% 
   summarise(min = min(Rotation_Before), Q1 = quantile(Rotation_Before, .25),
             median = median(Rotation_Before), Q3 = quantile(Rotation_Before, .75),
-            max = max(Rotation_Before)) %>% 
+            max = max(Rotation_Before), std = sd(Rotation_Before)) %>% 
   knitr::kable()
 
 arthritis %>% 
@@ -100,7 +100,7 @@ arthritis %>%
   group_by(leg, Group) %>% 
   summarise(min = min(Rotation_After), Q1 = quantile(Rotation_After, .25),
             median = median(Rotation_After), Q3 = quantile(Rotation_After, .75),
-            max = max(Rotation_After)) %>% 
+            max = max(Rotation_After), std = sd(Rotation_After)) %>% 
   knitr::kable()
 
 arthritis %>% 
@@ -121,7 +121,7 @@ arthritis %>%
   group_by(leg, Group) %>% 
   summarise(min = min(diff_Rotation), Q1 = quantile(diff_Rotation, .25),
             median = median(diff_Rotation), Q3 = quantile(diff_Rotation, .75),
-            max = max(diff_Rotation)) %>% 
+            max = max(diff_Rotation), std = sd(diff_Rotation)) %>% 
   knitr::kable()
 
 arthritis %>% 
@@ -141,4 +141,4 @@ treatment appears to have improved rotation in both legs more than in the contro
 ## Things to test
 * Is there a significant difference between the treatment and control group's inital flexion/rotation
 * Is there a significant difference in difference after intervention between the treatment groups in flexion/rotation
-* Does leg matter?
+* Does leg matter (this probably violates independent observations)?
