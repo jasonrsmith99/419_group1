@@ -216,7 +216,92 @@ larger.
 ## Things to test
 
 -   Is there a significant difference between the treatment and control
-    group’s inital flexion/rotation
+    group’s initial flexion/rotation
 -   Is there a significant difference in difference after intervention
     between the treatment groups in flexion/rotation
 -   Does leg matter (this probably violates independent observations)?
+
+## The Test
+
+-   Mann-Whitney Test
+
+### Assumptions
+
+-   One dependent variable (continuous or Ordinal)
+    -   We have a continuous variable (flexion/rotation)
+-   One independent variable (categorical, independent)
+    -   Treatment and Control, Right and Left Leg
+-   Independance of observations \*Yes for treatment/control, probably
+    not for right/left leg
+-   Distributions have kind of similar shapes/spreads \*can test medians
+    -   if not same shape/spread can only test for distrubtion
+
+## Is there a difference between treatment group’s inital flexion/rotation
+
+clean data
+
+``` r
+flex_crl <- arthritis$Flexion_Before[arthritis$Group =='Control']
+flex_trt <- arthritis$Flexion_Before[arthritis$Group =='Treatment']
+
+rot_crl <- arthritis$Rotation_Before[arthritis$Group =='Control']
+rot_trt <- arthritis$Rotation_Before[arthritis$Group =='Treatment']
+```
+
+test flexion
+
+``` r
+wilcox.test(flex_crl, flex_trt)
+```
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  flex_crl and flex_trt
+    ## W = 381.5, p-value = 0.003939
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(flex_crl)
+```
+
+    ## [1] 112
+
+``` r
+median(flex_trt)
+```
+
+    ## [1] 120
+
+The Distribution between the treatment and control groups for their
+initial flexion is different
+
+test rotation
+
+``` r
+wilcox.test(rot_crl, rot_trt)
+```
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  rot_crl and rot_trt
+    ## W = 665, p-value = 0.858
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(rot_crl)
+```
+
+    ## [1] 26
+
+``` r
+median(rot_trt)
+```
+
+    ## [1] 25
+
+We cannot say that the distributions between the treatment and control
+groups for the patients’ inital rotation are different.
+
+## Is there a difference in flexion/rotation after treatment between the groups?

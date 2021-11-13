@@ -139,6 +139,52 @@ treatment appears to have improved rotation in both legs more than in the contro
 
 
 ## Things to test
-* Is there a significant difference between the treatment and control group's inital flexion/rotation
+* Is there a significant difference between the treatment and control group's initial flexion/rotation
 * Is there a significant difference in difference after intervention between the treatment groups in flexion/rotation
 * Does leg matter (this probably violates independent observations)?
+
+## The Test
+* Mann-Whitney Test
+
+### Assumptions
+* One dependent variable (continuous or Ordinal)
+  * We have a continuous variable (flexion/rotation)
+* One independent variable (categorical, independent)
+  * Treatment and Control, Right and Left Leg
+* Independance of observations
+  *Yes for treatment/control, probably not for right/left leg
+* Distributions have kind of similar shapes/spreads
+  *can test medians
+  * if not same shape/spread can only test for distrubtion
+  
+## Is there a difference between treatment group's inital flexion/rotation
+
+clean data
+```{r}
+flex_crl <- arthritis$Flexion_Before[arthritis$Group =='Control']
+flex_trt <- arthritis$Flexion_Before[arthritis$Group =='Treatment']
+
+rot_crl <- arthritis$Rotation_Before[arthritis$Group =='Control']
+rot_trt <- arthritis$Rotation_Before[arthritis$Group =='Treatment']
+```
+
+test flexion
+```{r}
+wilcox.test(flex_crl, flex_trt)
+
+median(flex_crl)
+median(flex_trt)
+```
+The Distribution between the treatment and control groups for their initial flexion is different
+
+test rotation
+```{r}
+wilcox.test(rot_crl, rot_trt)
+
+median(rot_crl)
+median(rot_trt)
+```
+We cannot say that the distributions between the treatment and control groups for the patients' inital rotation are different.
+
+
+## Is there a difference in flexion/rotation after treatment between the groups?
