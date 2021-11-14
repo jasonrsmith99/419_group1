@@ -231,10 +231,13 @@ larger.
     -   We have a continuous variable (flexion/rotation)
 -   One independent variable (categorical, independent)
     -   Treatment and Control, Right and Left Leg
--   Independance of observations \*Yes for treatment/control, probably
-    not for right/left leg
+-   Independence of observations \*measures are for each leg. Comparing
+    left and right leg is likely not independent. I’m not sure about
+    comparing between treatment/control
+    -   possible solution would be to average the rotation/flexion
+        between each patient’s legs
 -   Distributions have kind of similar shapes/spreads \*can test medians
-    -   if not same shape/spread can only test for distrubtion
+    -   if not same shape/spread can only test for distribution
 
 ## Is there a difference between treatment group’s inital flexion/rotation
 
@@ -305,3 +308,77 @@ We cannot say that the distributions between the treatment and control
 groups for the patients’ inital rotation are different.
 
 ## Is there a difference in flexion/rotation after treatment between the groups?
+
+clean data
+
+``` r
+flex_diff_ctr <- arthritis$diff_Flexion[arthritis$Group == "Control"]
+flex_diff_trt <- arthritis$diff_Flexion[arthritis$Group == "Treatment"]
+
+rot_diff_ctr <- arthritis$diff_Rotation[arthritis$Group == "Control"]
+rot_diff_trt <- arthritis$diff_Rotation[arthritis$Group == "Treatment"]
+```
+
+test flexion
+
+``` r
+wilcox.test(flex_diff_ctr, flex_diff_trt)
+```
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  flex_diff_ctr and flex_diff_trt
+    ## W = 455, p-value = 0.03669
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(flex_diff_ctr)
+```
+
+    ## [1] 3
+
+``` r
+median(flex_diff_trt)
+```
+
+    ## [1] 6
+
+The distributions of the difference in flexion between the control and
+treatment group are significantly different
+
+test rotation
+
+``` r
+wilcox.test(rot_diff_ctr, rot_diff_trt)
+```
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  rot_diff_ctr and rot_diff_trt
+    ## W = 318.5, p-value = 0.0003566
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(rot_diff_ctr)
+```
+
+    ## [1] 1.5
+
+``` r
+median(rot_diff_trt)
+```
+
+    ## [1] 5
+
+The distributions for the difference in rotation between the control and
+treatment group are significantly different.
+
+## Does Leg Matter
+
+I think we can do this by treating it as paired data. We can make a
+vector of the difference in all the left legs and do the same for the
+right legs. To do this we will have to find out what leg belongs to what
+patient. I assume leg 1 and 2 belong to patient one. 3 and 4 to patient
+two and so on.
