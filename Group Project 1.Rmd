@@ -1,5 +1,5 @@
 ---
-title: "Group Prject 1"
+title: "Group Project 1"
 output: github_document
 ---
 ## Loading packages/read data
@@ -141,7 +141,7 @@ treatment appears to have improved rotation in both legs more than in the contro
 ## Things to test
 * Is there a significant difference between the treatment and control group's initial flexion/rotation
 * Is there a significant difference in difference after intervention between the treatment groups in flexion/rotation
-* Does leg matter (this probably violates independent observations)?
+* Does leg matter
 
 ## The Test
 * Mann-Whitney Test
@@ -220,3 +220,57 @@ The distributions for the difference in rotation between the control and treatme
 ## Does Leg Matter
 
 I think we can do this by treating it as paired data. We can make a vector of the difference in all the left legs and do the same for the right legs. To do this we will have to find out what leg belongs to what patient. I assume leg 1 and 2 belong to patient one. 3 and 4 to patient two and so on.
+
+cleaning
+```{r}
+diff_flex_crt_l <- arthritis$diff_Flexion[arthritis$Group == "Control" & arthritis$leg == "Left"]
+diff_flex_crt_r <- arthritis$diff_Flexion[arthritis$Group == "Control" & arthritis$leg == "Right"]
+
+diff_flex__trt_l <- arthritis$diff_Flexion[arthritis$Group == "Treatment" & arthritis$leg == "Left"]
+diff_flex_trt_r <- arthritis$diff_Flexion[arthritis$Group == "Treatment" & arthritis$leg == "Right"]
+
+diff_rot_crt_l <- arthritis$diff_Rotation[arthritis$Group == "Control" & arthritis$leg == "Left"]
+diff_rot_crt_r <- arthritis$diff_Rotation[arthritis$Group == "Control" & arthritis$leg == "Right"]
+
+diff_rot_trt_l <- arthritis$diff_Rotation[arthritis$Group == "Treatment" & arthritis$leg == "Left"]
+diff_rot_trt_r <- arthritis$diff_Rotation[arthritis$Group == "Treatment" & arthritis$leg == "Right"]
+```
+
+
+test flexion control
+```{r}
+wilcox.test(diff_flex_crt_l, diff_flex_crt_r)
+
+median(diff_flex_crt_l)
+median(diff_flex_crt_r)
+```
+We cannot conclude that the distributions for the difference in flexion for the control group is different between legs.
+
+test flexion treatment
+```{r}
+wilcox.test(diff_flex__trt_l, diff_flex_trt_r)
+
+median(diff_flex__trt_l)
+median(diff_flex_trt_r)
+```
+We cannot conclude that the distributions for the difference in flexion for the treatment group is different between legs.
+
+test rotation control
+```{r}
+wilcox.test(diff_rot_crt_l, diff_rot_crt_r)
+
+median(diff_rot_crt_l)
+median(diff_rot_crt_r)
+```
+We cannot conclude that the distributions for the difference in rotation for the control group is different between legs
+
+test rotation treatment
+```{r}
+wilcox.test(diff_rot_trt_l, diff_rot_trt_r)
+
+median(diff_rot_trt_l)
+median(diff_rot_trt_r)
+```
+We cannot conclude that the distributions for the difference in rotation for the treatment group is different between legs
+
+all of this said, the sample size may be too small to draw any meaningful conclusions about an suspected different between leg.
