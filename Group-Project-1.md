@@ -1,4 +1,4 @@
-Group Prject 1
+Group Project 1
 ================
 
 ## Loading packages/read data
@@ -219,7 +219,7 @@ larger.
     group’s initial flexion/rotation
 -   Is there a significant difference in difference after intervention
     between the treatment groups in flexion/rotation
--   Does leg matter (this probably violates independent observations)?
+-   Does leg matter
 
 ## The Test
 
@@ -382,3 +382,146 @@ vector of the difference in all the left legs and do the same for the
 right legs. To do this we will have to find out what leg belongs to what
 patient. I assume leg 1 and 2 belong to patient one. 3 and 4 to patient
 two and so on.
+
+cleaning
+
+``` r
+diff_flex_crt_l <- arthritis$diff_Flexion[arthritis$Group == "Control" & arthritis$leg == "Left"]
+diff_flex_crt_r <- arthritis$diff_Flexion[arthritis$Group == "Control" & arthritis$leg == "Right"]
+
+diff_flex__trt_l <- arthritis$diff_Flexion[arthritis$Group == "Treatment" & arthritis$leg == "Left"]
+diff_flex_trt_r <- arthritis$diff_Flexion[arthritis$Group == "Treatment" & arthritis$leg == "Right"]
+
+diff_rot_crt_l <- arthritis$diff_Rotation[arthritis$Group == "Control" & arthritis$leg == "Left"]
+diff_rot_crt_r <- arthritis$diff_Rotation[arthritis$Group == "Control" & arthritis$leg == "Right"]
+
+diff_rot_trt_l <- arthritis$diff_Rotation[arthritis$Group == "Treatment" & arthritis$leg == "Left"]
+diff_rot_trt_r <- arthritis$diff_Rotation[arthritis$Group == "Treatment" & arthritis$leg == "Right"]
+```
+
+test flexion control
+
+``` r
+wilcox.test(diff_flex_crt_l, diff_flex_crt_r)
+```
+
+    ## Warning in wilcox.test.default(diff_flex_crt_l, diff_flex_crt_r): cannot compute
+    ## exact p-value with ties
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  diff_flex_crt_l and diff_flex_crt_r
+    ## W = 64.5, p-value = 0.6845
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(diff_flex_crt_l)
+```
+
+    ## [1] 2
+
+``` r
+median(diff_flex_crt_r)
+```
+
+    ## [1] 3.5
+
+We cannot conclude that the distributions for the difference in flexion
+for the control group is different between legs.
+
+test flexion treatment
+
+``` r
+wilcox.test(diff_flex__trt_l, diff_flex_trt_r)
+```
+
+    ## Warning in wilcox.test.default(diff_flex__trt_l, diff_flex_trt_r): cannot
+    ## compute exact p-value with ties
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  diff_flex__trt_l and diff_flex_trt_r
+    ## W = 393.5, p-value = 0.6211
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(diff_flex__trt_l)
+```
+
+    ## [1] 6
+
+``` r
+median(diff_flex_trt_r)
+```
+
+    ## [1] 6
+
+We cannot conclude that the distributions for the difference in flexion
+for the treatment group is different between legs.
+
+test rotation control
+
+``` r
+wilcox.test(diff_rot_crt_l, diff_rot_crt_r)
+```
+
+    ## Warning in wilcox.test.default(diff_rot_crt_l, diff_rot_crt_r): cannot compute
+    ## exact p-value with ties
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  diff_rot_crt_l and diff_rot_crt_r
+    ## W = 55.5, p-value = 0.3521
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(diff_rot_crt_l)
+```
+
+    ## [1] -0.5
+
+``` r
+median(diff_rot_crt_r)
+```
+
+    ## [1] 3
+
+We cannot conclude that the distributions for the difference in rotation
+for the control group is different between legs
+
+test rotation treatment
+
+``` r
+wilcox.test(diff_rot_trt_l, diff_rot_trt_r)
+```
+
+    ## Warning in wilcox.test.default(diff_rot_trt_l, diff_rot_trt_r): cannot compute
+    ## exact p-value with ties
+
+    ## 
+    ##  Wilcoxon rank sum test with continuity correction
+    ## 
+    ## data:  diff_rot_trt_l and diff_rot_trt_r
+    ## W = 285, p-value = 0.1705
+    ## alternative hypothesis: true location shift is not equal to 0
+
+``` r
+median(diff_rot_trt_l)
+```
+
+    ## [1] 3
+
+``` r
+median(diff_rot_trt_r)
+```
+
+    ## [1] 8
+
+We cannot conclude that the distributions for the difference in rotation
+for the treatment group is different between legs
+
+all of this said, the sample size may be too small to draw any
+meaningful conclusions about an suspected different between leg.
